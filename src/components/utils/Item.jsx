@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { StarIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
 
@@ -13,13 +13,12 @@ const Item = ({
   btn,
   rating,
   price,
+  saveItem,
 }) => {
-
-
   return (
     <>
       <div
-        className={`relative bg-gradient-to-b ${color} ${shadow} grid items-center ${
+        className={`relative bg-gradient-to-b ${color} ${shadow} grid items-center  ${
           ifExists ? "justify-items-start" : "justify-items-center"
         } rounded-xl py-4 px-5 transition-all duration-700 ease-in-out w-full hover:scale-105`}
       >
@@ -52,12 +51,11 @@ const Item = ({
               type="button"
               className="bg-white/90 blur-effect-theme button-theme p-0.5 shadow shadow-sky-200"
             >
-              <ShoppingBagIcon className="icon-style text-slate-900" />
+              <ShoppingBagIcon className="icon-style text-slate-900" onClick={()=>saveItem(id)} />
             </button>
             <button
               type="button"
               className="bg-white/90 blur-effect-theme button-theme px-2 py-1 shadow shadow-sky-200 text-sm text-black"
-              
             >
               {btn}
             </button>

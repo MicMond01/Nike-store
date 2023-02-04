@@ -1,4 +1,7 @@
 import React from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Hero,
@@ -21,10 +24,18 @@ import {
 } from "../data/data";
 
 const Home = () => {
+  const [showCart, setShowCart] = useState(false);
+
+  const { user, value } = useSelector((state) => state.countState);
+  // console.log(user);
+  const openAndCloseCart = () => {
+    setShowCart(!showCart);
+  };
+
   return (
     <>
-      <Navbar />
-      {/* <Cart /> */}
+      <Navbar openAndCloseCart={openAndCloseCart} />
+      <Cart showCart={showCart} openAndCloseCart={openAndCloseCart} />
       <main className="flex flex-col gap-16 relative">
         <Hero heroapi={heroapi} />
         <Sales endpoint={popularsales} ifExists />

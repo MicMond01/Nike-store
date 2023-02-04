@@ -1,63 +1,126 @@
 import React from "react";
+import logo from "../assets/logo.png";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./../firebase";
+import { useDispatch } from "react-redux";
+import { setUser } from "../Redux/slice/counterSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [loginValue, setLoginValue] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    setLoginValue((prev) => {
+      return {
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      };
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    signInWithEmailAndPassword(auth, loginValue.email, loginValue.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        window.localStorage.setItem("uid", user.uid);
+        dispatch(setUser(user))
+        navigate("/home");
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
+
   return (
     <>
-      <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-        <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-          <div class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-          <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-            <div class="max-w-md mx-auto">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 1 }}
+        className="bg-sky-500 h-screen"
+      >
+        <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-6 ">
+          <form
+            onSubmit={handleSubmit}
+            className="py-3 md:px-6 sm:max-w-xl sm:mx-auto"
+          >
+            <div className="max-w-md mx-auto">
               <div>
-                <h1 class="text-2xl font-semibold">
-                  Login Form with Floating Labels
-                </h1>
+                <img
+                  src={logo}
+                  className="w-25 h-10 mb-8 brightness-0"
+                  alt="logo"
+                />
+                <h1 className="text-2xl ">Now let's get you Shopping.</h1>
               </div>
-              <div class="divide-y divide-gray-200">
-                <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                  <div class="relative">
+              <div className="divide-y divide-gray-200">
+                <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  <div className="relative">
                     <input
-                      autocomplete="off"
+                      value={loginValue?.email}
+                      autoComplete="off"
+                      onChange={handleChange}
                       id="email"
                       name="email"
                       type="text"
-                      class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                      className="peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Email address"
                     />
                     <label
-                      for="email"
-                      class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      htmlFor="email"
+                      className="absolute left-3 -top-7 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-5 peer-focus:text-gray-600 peer-focus:text-sm"
                     >
                       Email Address
                     </label>
                   </div>
-                  <div class="relative">
+
+                  <div className="relative">
                     <input
-                      autocomplete="off"
+                      value={loginValue?.password}
+                      autoComplete="off"
+                      onChange={handleChange}
                       id="password"
                       name="password"
                       type="password"
-                      class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                      className="peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Password"
                     />
                     <label
-                      for="password"
-                      class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      htmlFor="password"
+                      className="absolute left-3 -top-7 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-5 peer-focus:text-gray-600 peer-focus:text-sm"
                     >
                       Password
                     </label>
                   </div>
-                  <div class="relative">
-                    <button class="bg-blue-500 text-white rounded-md px-2 py-1">
-                      Submit
+
+                  <div className="relative w-full ">
+                    <button className=" absolute right-0 button-theme bg-slate-900 text-white shadow-slate-500 rounded-xl my-2 h-10 ">
+                      Sign In
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

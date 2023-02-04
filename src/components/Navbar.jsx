@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import logo from "../assets/logo.png";
 
-const Navbar = () => {
+const Navbar = ({ openAndCloseCart }) => {
   const [navState, setNavState] = useState(false);
 
   const onNavScroll = () => {
@@ -56,7 +56,7 @@ const Navbar = () => {
                 }`}
               />
             </li>
-            <li className="grid items-center">
+            <li className="grid items-center" onClick={openAndCloseCart}>
               <button
                 type="button"
                 className="border-none outline-none active:scale-110 transition-all duration-300 relative"

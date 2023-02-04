@@ -2,8 +2,12 @@ import React from "react";
 import logo from "../assets/logo.png";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./../firebase";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: "",
     fname: "",
@@ -24,10 +28,42 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const goToLogin = (event) => {
     event.preventDefault();
 
-    console.log(inputValue);
+    navigate("/login");
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    await createUserWithEmailAndPassword(
+      auth,
+      inputValue.email,
+      inputValue.password
+    )
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        if (
+          inputValue.email.length > 0 &&
+          inputValue.fname.length > 0 &&
+          inputValue.lname.length > 0 &&
+          inputValue.password.length > 0 &&
+          inputValue.agree === true
+        ) {
+          return navigate("/login");
+        }
+        // console.log(user);
+        // navigate("/Login");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        // ..
+      });
   };
 
   return (
@@ -40,10 +76,7 @@ const SignUp = () => {
         className="bg-sky-500 h-screen"
       >
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-6 ">
-          <form
-            onSubmit={handleSubmit}
-            className="py-3 md:px-6 sm:max-w-xl sm:mx-auto"
-          >
+          <form className="py-3 md:px-6 sm:max-w-xl sm:mx-auto">
             <div className="max-w-md mx-auto">
               <div>
                 <img
@@ -160,14 +193,26 @@ const SignUp = () => {
                     />
                     <label
                       htmlFor="agree"
-                      className="absolute left-10 text-gray-600 text-[15px] md:text-[10px] md:leading-normal "
+                      className="absolute left-10 text-red-600 text-[15px] md:text-[10px] md:leading-normal "
                     >
                       I agree to Nike's Privacy Policy and Terms of Use.
                     </label>
                   </div>
+                  <p className="text-red-600 text-[15px] md:text-[10px] md:leading-normal">
+                    Fill every Input
+                  </p>
 
                   <div className="relative w-full ">
-                    <button className=" absolute right-0 button-theme bg-slate-900 text-white shadow-slate-500 rounded-xl my-2 h-10 ">
+                    <button
+                      onClick={goToLogin}
+                      className=" absolute left-0 button-theme bg-transparent text-black shadow-slate-500 rounded-xl my-2 h-10 "
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={handleSubmit}
+                      className=" absolute right-0 button-theme bg-slate-900 text-white shadow-slate-500 rounded-xl my-2 h-10 "
+                    >
                       Create Account
                     </button>
                   </div>
