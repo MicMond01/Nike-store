@@ -49,7 +49,7 @@ const CartItem = ({
         <div className="grid items-center gap-5">
           <div className="grid items-center justify-center">
             <h1 className="text-lg lg:text-base text-slate-900 font-medium">
-              ${price * cartQuantity}
+              ${price }
             </h1>
           </div>
           <div className="grid items-center justify-center">

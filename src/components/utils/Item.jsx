@@ -50,8 +50,9 @@ const Item = ({
             <button
               type="button"
               className="bg-white/90 blur-effect-theme button-theme p-0.5 shadow shadow-sky-200"
+              onClick={() => saveItem(id)}
             >
-              <ShoppingBagIcon className="icon-style text-slate-900" onClick={()=>saveItem(id)} />
+              <ShoppingBagIcon className="icon-style text-slate-900" />
             </button>
             <button
               type="button"

@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Title from "./utils/Title";
 import Item from "./utils/Item";
 
 const Sales = ({ ifExists, endpoint: { title, items } }) => {
-  // console.log(endpoint);
+  const itemArr = [];
 
-  const [planArr] = useState([]);
-  // console.log(items);
+  // const [itemArr, setItemArr] = useState([]);
 
   const saveItem = (id) => {
-    const prevData = [...items];
-    prevData.map((item) => {
-      item.id === id ? console.log(item) : ""
+    items.map((item) => {
+      item.cartQuantity = 0;
 
+      if (item.id === id) {
+        itemArr.push(item);
+        item.cartQuantity += 1; //itemArr.length;
+      } else {
+        return item;
+      }
     });
+
+    const filteredArray = itemArr.filter((element, index) => {
+      return itemArr.indexOf(element) === index;
+    });
+
+    localStorage.setItem("filteredArray", JSON.stringify(filteredArray));
+    // console.log(fillme);
   };
 
   return (
