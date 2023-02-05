@@ -2,29 +2,32 @@ import React, { useEffect, useState } from "react";
 import Title from "./utils/Title";
 import Item from "./utils/Item";
 
-const Sales = ({ ifExists, endpoint: { title, items } }) => {
-  const itemArr = [];
-
-  // const [itemArr, setItemArr] = useState([]);
-
+const Sales = ({ ifExists, endpoint: { title, items }, setCartCount }) => {
   const saveItem = (id) => {
-    items.map((item) => {
-      item.cartQuantity = 0;
+    const getItem = localStorage.getItem("filteredArray");
 
-      if (item.id === id) {
-        itemArr.push(item);
-        item.cartQuantity += 1; //itemArr.length;
-      } else {
+    const parseItem = getItem ? JSON.parse(getItem) : [];
+
+    const index = parseItem.findIndex((item) => item.id === id);
+
+    if (index === -1) {
+      const item = items.find((inbond) => inbond.id === id);
+      item.quantity = 1;
+      parseItem.push(item);
+      localStorage.setItem("filteredArray", JSON.stringify(parseItem));
+      setCartCount(parseItem.length);
+    } else {
+      parseItem.map((item) => {
+        if (item.id === id) {
+          item.sumPrice = Number(item.price) * (item.quantity + 1); 
+          item.quantity = item.quantity + 1;
+        }
         return item;
-      }
-    });
-
-    const filteredArray = itemArr.filter((element, index) => {
-      return itemArr.indexOf(element) === index;
-    });
-
-    localStorage.setItem("filteredArray", JSON.stringify(filteredArray));
-    // console.log(fillme);
+      });
+      localStorage.setItem("filteredArray", JSON.stringify(parseItem));
+      setCartCount(parseItem.length);
+    }
+    
   };
 
   return (

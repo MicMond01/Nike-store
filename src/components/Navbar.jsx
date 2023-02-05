@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import logo from "../assets/logo.png";
 
-const Navbar = ({ openAndCloseCart }) => {
+const Navbar = ({ openAndCloseCart, cartCount }) => {
   const [navState, setNavState] = useState(false);
 
   const onNavScroll = () => {
@@ -73,7 +73,7 @@ const Navbar = ({ openAndCloseCart }) => {
                       : "bg-slate-100 text-slate-900 shadow-slate-100"
                   }`}
                 >
-                  (??)
+                  {cartCount}
                 </div>
               </button>
             </li>

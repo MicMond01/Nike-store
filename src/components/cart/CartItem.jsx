@@ -2,7 +2,7 @@ import React from "react";
 import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 const CartItem = ({
-  item: { id, title, text, img, color, shadow, price, cartQuantity },
+  item: { id, title, text, img, color, shadow, price, quantity, sumPrice },
 }) => {
   return (
     <>
@@ -35,7 +35,7 @@ const CartItem = ({
                 <MinusIcon className="w-5 h-5 lg:w-4 lg:h-4 text-white stroke-[2]" />
               </button>
               <div className="bg-theme-cart rounded text-white font-medium lg:text-xs w-7 h-6 lg:h-5 lg:w-6 flex items-center justify-center">
-                {cartQuantity}
+                {quantity}
               </div>
               <button
                 type="button"
@@ -49,7 +49,7 @@ const CartItem = ({
         <div className="grid items-center gap-5">
           <div className="grid items-center justify-center">
             <h1 className="text-lg lg:text-base text-slate-900 font-medium">
-              ${price }
+              {quantity > 1 ? sumPrice : price}
             </h1>
           </div>
           <div className="grid items-center justify-center">

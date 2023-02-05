@@ -1,6 +1,5 @@
 import React from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
@@ -25,8 +24,15 @@ import {
 
 const Home = () => {
   const [showCart, setShowCart] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
-  const { user, value } = useSelector((state) => state.countState);
+  useEffect(() => {
+    const item = localStorage.getItem("filteredArray");
+    const parseItem = item ? JSON.parse(item) : [];
+
+    setCartCount(parseItem.length);
+  }, []);
+
   // console.log(user);
   const openAndCloseCart = () => {
     setShowCart(!showCart);
@@ -34,14 +40,16 @@ const Home = () => {
 
   return (
     <>
-      <Navbar openAndCloseCart={openAndCloseCart} />
-      <Cart showCart={showCart} openAndCloseCart={openAndCloseCart} />
+      <Navbar openAndCloseCart={openAndCloseCart} cartCount={cartCount} />
+      {showCart && (
+        <Cart showCart={showCart} openAndCloseCart={openAndCloseCart} />
+      )}
       <main className="flex flex-col gap-16 relative">
         <Hero heroapi={heroapi} />
-        
-        <Sales endpoint={popularsales} ifExists />
+
+        <Sales endpoint={popularsales} setCartCount={setCartCount} ifExists />
         <FlexContent endpoint={highlight} ifExists />
-        <Sales endpoint={toprateslaes} />
+        <Sales endpoint={toprateslaes} setCartCount={setCartCount} />
         <FlexContent endpoint={sneaker} />
         <Stories story={story} />
       </main>

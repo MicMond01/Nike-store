@@ -7,9 +7,14 @@ const Cart = ({ showCart, openAndCloseCart }) => {
   const [localItem, setLocalItem] = useState([]);
 
   useEffect(() => {
-    const cartItems = localStorage.getItem("filteredArray") || null;
+    const cartItems = localStorage.getItem("filteredArray") || [];
 
     cartItems && setLocalItem(JSON.parse(cartItems));
+    console.log("Irendered");
+
+    return () => {
+      console.log("Iexist");
+    };
   }, []);
 
   console.log(localItem);
