@@ -27,8 +27,9 @@ const Home = () => {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    const item = localStorage.getItem("filteredArray");
-    const parseItem = item ? JSON.parse(item) : [];
+    const getItem = localStorage.getItem("filteredArray");
+
+    const parseItem = getItem ? JSON.parse(getItem) : [];
 
     setCartCount(parseItem.length);
   }, []);
@@ -47,9 +48,18 @@ const Home = () => {
       <main className="flex flex-col gap-16 relative">
         <Hero heroapi={heroapi} />
 
-        <Sales endpoint={popularsales} setCartCount={setCartCount} ifExists />
+        <Sales
+          endpoint={popularsales}
+          setCartCount={setCartCount}
+          ifExists
+          openAndCloseCart={openAndCloseCart}
+        />
         <FlexContent endpoint={highlight} ifExists />
-        <Sales endpoint={toprateslaes} setCartCount={setCartCount} />
+        <Sales
+          endpoint={toprateslaes}
+          setCartCount={setCartCount}
+          openAndCloseCart={openAndCloseCart}
+        />
         <FlexContent endpoint={sneaker} />
         <Stories story={story} />
       </main>

@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Title from "./utils/Title";
 import Item from "./utils/Item";
+import toast from "react-hot-toast";
 
-const Sales = ({ ifExists, endpoint: { title, items }, setCartCount }) => {
+const Sales = ({
+  ifExists,
+  endpoint: { title, items },
+  setCartCount,
+  openAndCloseCart,
+}) => {
   const saveItem = (id) => {
     const getItem = localStorage.getItem("filteredArray");
 
@@ -19,15 +25,16 @@ const Sales = ({ ifExists, endpoint: { title, items }, setCartCount }) => {
     } else {
       parseItem.map((item) => {
         if (item.id === id) {
-          item.sumPrice = Number(item.price) * (item.quantity + 1); 
+          item.sumPrice = Number(item.price) * (item.quantity + 1);
           item.quantity = item.quantity + 1;
         }
         return item;
       });
       localStorage.setItem("filteredArray", JSON.stringify(parseItem));
       setCartCount(parseItem.length);
+
+      toast.success(`Item added to Cart`);
     }
-    
   };
 
   return (
@@ -42,7 +49,13 @@ const Sales = ({ ifExists, endpoint: { title, items }, setCartCount }) => {
           }`}
         >
           {items?.map((item, i) => (
-            <Item {...item} saveItem={saveItem} key={i} ifExists={ifExists} />
+            <Item
+              {...item}
+              saveItem={saveItem}
+              key={i}
+              ifExists={ifExists}
+              openAndCloseCart={openAndCloseCart}
+            />
           ))}
         </div>
       </div>

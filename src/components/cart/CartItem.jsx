@@ -3,6 +3,10 @@ import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 const CartItem = ({
   item: { id, title, text, img, color, shadow, price, quantity, sumPrice },
+  incrementItem,
+  decrementItem,
+  deleteCartItem,
+  subTotal,
 }) => {
   return (
     <>
@@ -29,15 +33,17 @@ const CartItem = ({
             </div>
             <div className="flex items-center justify-around w-full">
               <button
+                onClick={() => decrementItem(id)}
                 type="button"
                 className="bg-theme-cart rounded w-6 h-6 lg:w-5 lg:h-5 flex items-center justify-center active:scale-90"
               >
                 <MinusIcon className="w-5 h-5 lg:w-4 lg:h-4 text-white stroke-[2]" />
               </button>
               <div className="bg-theme-cart rounded text-white font-medium lg:text-xs w-7 h-6 lg:h-5 lg:w-6 flex items-center justify-center">
-                {quantity}
+                {quantity > 1 ? quantity : 1}
               </div>
               <button
+                onClick={() => incrementItem(id)}
                 type="button"
                 className="bg-theme-cart rounded w-6 h-6 lg:w-5 lg:h-5 flex items-center justify-center active:scale-90"
               >
@@ -56,6 +62,10 @@ const CartItem = ({
             <button
               type="button"
               className="bg-theme-cart rounded p-1 lg:p-0.5 grid items-center justify-items-center cursor-pointer"
+              onClick={() => {
+                deleteCartItem(id);
+                subTotal();
+              }}
             >
               <TrashIcon className="w-5 h-5 text-white" />
             </button>
