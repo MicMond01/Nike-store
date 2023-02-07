@@ -3,13 +3,16 @@ import CartCount from "./cart/CartCount";
 import CartEmpty from "./cart/CartEmpty";
 import CartItem from "./cart/CartItem";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+// import PaymentForm from "./PaymentForm";
 
 const Cart = ({ showCart, openAndCloseCart }) => {
   const [localItem, setLocalItem] = useState([]);
   const [sumTotal, setSumTotal] = useState(0);
+  const [showItem, setShowItem] = useState(false)
 
   useEffect(() => {
-    const cartItems = localStorage.getItem("filteredArray") || [];
+    const cartItems = localStorage.getItem("filteredArray") || null;
     cartItems && setLocalItem(JSON.parse(cartItems));
   }, []);
 
@@ -89,6 +92,10 @@ const Cart = ({ showCart, openAndCloseCart }) => {
     setSumTotal(result);
   };
 
+  const handleCheckout = () => {
+    setShowItem(true)
+  };
+
   return (
     <>
       {showCart && (
@@ -141,13 +148,23 @@ const Cart = ({ showCart, openAndCloseCart }) => {
                 <p className="text-sm font-medium text-center">
                   Taxes and Shipping Will Calculate At Shipping
                 </p>
-                <button
-                  onClick={subTotal}
-                  type="button"
-                  className="button-theme bg-theme-cart text-white"
-                >
-                  Check Out
-                </button>
+                <div>
+                  {localItem?.length === 0 ? (
+                    ""
+                  ) : (
+                    <Link to="/">
+                      <button
+                        onClick={() => {
+                          subTotal, handleCheckout;
+                        }}
+                        type="button"
+                        className="button-theme bg-theme-cart text-white w-full"
+                      >
+                        Check Out
+                      </button>
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           </div>
