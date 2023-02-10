@@ -4,12 +4,11 @@ import CartEmpty from "./cart/CartEmpty";
 import CartItem from "./cart/CartItem";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-// import PaymentForm from "./PaymentForm";
+// import StripeContainer from "./stripe/StripeContainer";
 
-const Cart = ({ showCart, openAndCloseCart }) => {
+const Cart = ({ showCart, openAndCloseCart, handleCheckout }) => {
   const [localItem, setLocalItem] = useState([]);
   const [sumTotal, setSumTotal] = useState(0);
-  const [showItem, setShowItem] = useState(false)
 
   useEffect(() => {
     const cartItems = localStorage.getItem("filteredArray") || null;
@@ -90,10 +89,6 @@ const Cart = ({ showCart, openAndCloseCart }) => {
 
     localStorage.setItem("total", JSON.stringify(result));
     setSumTotal(result);
-  };
-
-  const handleCheckout = () => {
-    setShowItem(true)
   };
 
   return (
