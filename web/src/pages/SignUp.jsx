@@ -96,7 +96,7 @@ const SignUp = () => {
                       id="email"
                       name="email"
                       type="text"
-                      className="peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
+                      className="px-4 peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Email address"
                     />
                     <label
@@ -116,7 +116,7 @@ const SignUp = () => {
                         id="fname"
                         name="fname"
                         type="text"
-                        className="peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 md:mb-6 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
+                        className="px-4 peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 md:mb-6 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="First Name"
                       />
                       <label
@@ -134,7 +134,7 @@ const SignUp = () => {
                         id="lname"
                         name="lname"
                         type="text"
-                        className="peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
+                        className="px-4 peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Last Name"
                       />
                       <label
@@ -154,7 +154,7 @@ const SignUp = () => {
                       id="password"
                       name="password"
                       type="password"
-                      className="peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
+                      className="px-4 peer placeholder-transparent h-12 w-full border-2 rounded-2xl border-zinc-500 mb-3 bg-transparent text-gray-900 focus:outline-none focus:borer-rose-600"
                       placeholder="Password"
                     />
                     <label
