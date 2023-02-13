@@ -55,6 +55,7 @@ const Home = () => {
             showCart={showCart}
             openAndCloseCart={openAndCloseCart}
             handleCheckout={handleCheckout}
+            setCartCount={setCartCount}
           />
         )}
         <main className="flex flex-col gap-16 relative">

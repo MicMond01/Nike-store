@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import FirstPage from "./pages/FirstPage";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -22,6 +22,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<FirstPage />} />
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="*" element={<Navigate to="/" />} />
             <Route element={<ProtectedLogin />}>
               <Route path="/login" element={<Login />} />
             </Route>

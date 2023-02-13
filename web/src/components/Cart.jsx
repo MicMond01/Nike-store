@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 // import StripeContainer from "./stripe/StripeContainer";
 
-const Cart = ({ showCart, openAndCloseCart, handleCheckout }) => {
+const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
   const [localItem, setLocalItem] = useState([]);
   const [sumTotal, setSumTotal] = useState(0);
 
@@ -28,6 +28,7 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout }) => {
       }
     });
     localStorage.setItem("filteredArray", JSON.stringify(parseItem));
+    setCartCount(parseItem.length);
     setLocalItem(parseItem);
     toast.success(`Item QTY Increased`);
   };
@@ -45,6 +46,7 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout }) => {
       }
     });
     localStorage.setItem("filteredArray", JSON.stringify(parseItem));
+    setCartCount(parseItem.length);
     setLocalItem(parseItem);
     toast.success(`Item QTY Decreased`);
   };
@@ -59,6 +61,7 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout }) => {
     if (index > -1) {
       parseItem.splice(index, 1);
       localStorage.setItem("filteredArray", JSON.stringify(parseItem));
+      setCartCount(parseItem.length);
       setLocalItem(parseItem);
     }
 
@@ -74,6 +77,7 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout }) => {
     const clear = parseItem.splice();
 
     localStorage.setItem("filteredArray", JSON.stringify(clear));
+    setCartCount(clear.length);
     setLocalItem(clear);
     toast.success(`Cart Cleared`);
   };
@@ -170,24 +174,3 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout }) => {
 };
 
 export default Cart;
-
-{
-  /* {cartItems?.length === 0 ? <CartEmpty /> : <div>
-            <div className="flex items-start justify-start flex-col gap-y-7 lg:gap-y-5 overflow-y-scroll h-[81vh] scroll-smooth scroll-hidden py-3">
-              {cartItems?.map((item, i) => (
-                <CartItem key={i} item={item} />
-              ))}
-            </div> */
-}
-
-// ${
-//   ifCartState
-//     ? "opacity-100 visible translate-x-0"
-//     : "opacity-0 invisible translate-x-8"
-// }
-
-// ${
-//   ifCartState
-//     ? "opacity-100 visible translate-x-0"
-//     : "opacity-0 invisible translate-x-8"
-// }
