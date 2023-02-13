@@ -139,7 +139,7 @@ const SignUp = () => {
                       />
                       <label
                         htmlFor="lname"
-                        className="absolute left-3  -top75 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-5 peer-focus:text-gray-600 peer-focus:text-sm"
+                        className="absolute left-3 -top-7 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-5 peer-focus:text-gray-600 peer-focus:text-sm"
                       >
                         Last Name
                       </label>
