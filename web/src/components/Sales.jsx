@@ -21,6 +21,16 @@ const Sales = ({
       const item = items.find((inbond) => inbond.id === id);
       item.quantity = 1;
       parseItem.push(item);
+
+      const sumOfPrice = parseItem.map(
+        (item) => Number(item.price) * item.quantity
+      );
+      const result = sumOfPrice.reduce((sum, num) => sum + num, 0);
+
+      localStorage.setItem("total", JSON.stringify(result));
+      setSumTotal(result);
+
+      toast.success(`Item added to Cart`);
       localStorage.setItem("filteredArray", JSON.stringify(parseItem));
       setCartCount(parseItem.length);
     } else {
