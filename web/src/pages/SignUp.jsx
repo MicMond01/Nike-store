@@ -8,6 +8,8 @@ import { auth } from "./../firebase";
 
 const SignUp = () => {
   const navigate = useNavigate();
+
+  const [error, setError] = useState("");
   const [inputValue, setInputValue] = useState({
     email: "",
     fname: "",
@@ -61,6 +63,7 @@ const SignUp = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        setError(errorMessage);
         console.log(errorCode, errorMessage);
         // ..
       });
@@ -199,7 +202,7 @@ const SignUp = () => {
                     </label>
                   </div>
                   <p className="text-red-600 text-[15px] md:text-[10px] md:leading-normal">
-                    Fill every Input
+                    {error ? "Invalid SignUp credentials" : ""}
                   </p>
 
                   <div className="relative w-full ">
