@@ -8,6 +8,7 @@ const Sales = ({
   endpoint: { title, items },
   setCartCount,
   openAndCloseCart,
+  setSumTotal,
 }) => {
   const saveItem = (id) => {
     const getItem = localStorage.getItem("filteredArray");
@@ -32,6 +33,15 @@ const Sales = ({
       });
       localStorage.setItem("filteredArray", JSON.stringify(parseItem));
       setCartCount(parseItem.length);
+
+      // UPDATE THE SUMTOTAL
+      const sumOfPrice = parseItem.map(
+        (item) => Number(item.price) * item.quantity
+      );
+      const result = sumOfPrice.reduce((sum, num) => sum + num, 0);
+
+      localStorage.setItem("total", JSON.stringify(result));
+      setSumTotal(result);
 
       toast.success(`Item added to Cart`);
     }

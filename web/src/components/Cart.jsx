@@ -6,9 +6,15 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 // import StripeContainer from "./stripe/StripeContainer";
 
-const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
+const Cart = ({
+  showCart,
+  openAndCloseCart,
+  handleCheckout,
+  setCartCount,
+  sumTotal,
+  setSumTotal,
+}) => {
   const [localItem, setLocalItem] = useState([]);
-  const [sumTotal, setSumTotal] = useState(0);
 
   useEffect(() => {
     const cartItems = localStorage.getItem("filteredArray") || null;
@@ -22,14 +28,25 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
     parseItem.map((item) => {
       if (item.id === id) {
         item.sumPrice = Number(item.price) * (item.quantity + 1);
-        return (item.quantity = item.quantity + 1);
+        return (item.quantity += 1);
       } else {
         return item;
       }
     });
+
     localStorage.setItem("filteredArray", JSON.stringify(parseItem));
     setCartCount(parseItem.length);
     setLocalItem(parseItem);
+
+    // UPDATE THE SUMTOTAL
+    const sumOfPrice = parseItem.map(
+      (item) => Number(item.price) * item.quantity
+    );
+    const result = sumOfPrice.reduce((sum, num) => sum + num, 0);
+
+    localStorage.setItem("total", JSON.stringify(result));
+    setSumTotal(result);
+
     toast.success(`Item QTY Increased`);
   };
 
@@ -39,8 +56,11 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
 
     parseItem.map((item) => {
       if (item.id === id) {
-        item.sumPrice = Number(item.price) * (item.quantity + 1);
-        return (item.quantity = item.quantity - 1);
+        item.sumPrice = Number(item.price) * item.quantity;
+        if (item.quantity < 2) {
+          return (item.sumPrice = 200);
+        }
+        return (item.quantity -= 1);
       } else {
         return item;
       }
@@ -48,6 +68,15 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
     localStorage.setItem("filteredArray", JSON.stringify(parseItem));
     setCartCount(parseItem.length);
     setLocalItem(parseItem);
+
+    // UPDATE THE SUMTOTAL
+    const sumOfPrice = parseItem.map(
+      (item) => Number(item.price) * item.quantity
+    );
+    const result = sumOfPrice.reduce((sum, num) => sum + num, 0);
+
+    localStorage.setItem("total", JSON.stringify(result));
+    setSumTotal(result);
     toast.success(`Item QTY Decreased`);
   };
 
@@ -65,6 +94,15 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
       setLocalItem(parseItem);
     }
 
+    // UPDATE THE SUMTOTAL
+    const sumOfPrice = parseItem.map(
+      (item) => Number(item.price) * item.quantity
+    );
+    const result = sumOfPrice.reduce((sum, num) => sum + num, 0);
+
+    localStorage.setItem("total", JSON.stringify(result));
+    setSumTotal(result);
+
     toast.success(`Item removed From Cart`);
     // subTotal();
   };
@@ -79,21 +117,26 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
     localStorage.setItem("filteredArray", JSON.stringify(clear));
     setCartCount(clear.length);
     setLocalItem(clear);
+
+    // UPDATE THE SUMTOTAL
+
+    localStorage.setItem("total", JSON.stringify(clear));
+    setSumTotal(clear);
     toast.success(`Cart Cleared`);
   };
 
-  const subTotal = () => {
-    const getItem = localStorage.getItem("filteredArray");
-    const parseItem = getItem ? JSON.parse(getItem) : [];
+  // const subTotal = () => {
+  //   const getItem = localStorage.getItem("filteredArray");
+  //   const parseItem = getItem ? JSON.parse(getItem) : [];
 
-    const sumOfPrice = parseItem.map(
-      (item) => Number(item.price) * item.quantity
-    );
-    const result = sumOfPrice.reduce((sum, num) => sum + num, 0);
+  //   const sumOfPrice = parseItem.map(
+  //     (item) => Number(item.price) * item.quantity
+  //   );
+  //   const result = sumOfPrice.reduce((sum, num) => sum + num, 0);
 
-    localStorage.setItem("total", JSON.stringify(result));
-    setSumTotal(result);
-  };
+  //   localStorage.setItem("total", JSON.stringify(result));
+  //   setSumTotal(result);
+  // };
 
   return (
     <>
@@ -115,7 +158,7 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
             <CartCount
               openAndCloseCart={openAndCloseCart}
               deleteAllCartItem={deleteAllCartItem}
-              subTotal={subTotal}
+              // subTotal={subTotal}
             />
             {localItem?.length === 0 ? (
               <CartEmpty openAndCloseCart={openAndCloseCart} />
@@ -129,7 +172,7 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
                       incrementItem={incrementItem}
                       decrementItem={decrementItem}
                       deleteCartItem={deleteCartItem}
-                      subTotal={subTotal}
+                      // subTotal={subTotal}
                     />
                   ))}
                 </div>
@@ -154,7 +197,7 @@ const Cart = ({ showCart, openAndCloseCart, handleCheckout, setCartCount }) => {
                     <Link to="/">
                       <button
                         onClick={() => {
-                          subTotal, handleCheckout;
+                          handleCheckout;
                         }}
                         type="button"
                         className="button-theme bg-theme-cart text-white w-full"

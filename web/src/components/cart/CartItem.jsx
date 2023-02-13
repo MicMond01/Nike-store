@@ -6,7 +6,7 @@ const CartItem = ({
   incrementItem,
   decrementItem,
   deleteCartItem,
-  subTotal,
+  // subTotal,
 }) => {
   return (
     <>
@@ -64,7 +64,7 @@ const CartItem = ({
               className="bg-theme-cart rounded p-1 lg:p-0.5 grid items-center justify-items-center cursor-pointer"
               onClick={() => {
                 deleteCartItem(id);
-                subTotal();
+                // subTotal();
               }}
             >
               <TrashIcon className="w-5 h-5 text-white" />

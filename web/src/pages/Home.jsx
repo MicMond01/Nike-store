@@ -27,6 +27,7 @@ const Home = () => {
   const [showCart, setShowCart] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [showItem, setShowItem] = useState(false);
+  const [sumTotal, setSumTotal] = useState(0);
 
   useEffect(() => {
     const getItem = localStorage.getItem("filteredArray");
@@ -34,6 +35,19 @@ const Home = () => {
     const parseItem = getItem ? JSON.parse(getItem) : [];
 
     setCartCount(parseItem.length);
+  }, []);
+
+  useEffect(() => {
+    const getItem = localStorage.getItem("filteredArray");
+    const parseItem = getItem ? JSON.parse(getItem) : [];
+
+    const sumOfPrice = parseItem.map(
+      (item) => Number(item.price) * item.quantity
+    );
+    const result = sumOfPrice.reduce((sum, num) => sum + num, 0);
+
+    localStorage.setItem("total", JSON.stringify(result));
+    setSumTotal(result);
   }, []);
 
   // console.log(user);
@@ -56,6 +70,8 @@ const Home = () => {
             openAndCloseCart={openAndCloseCart}
             handleCheckout={handleCheckout}
             setCartCount={setCartCount}
+            sumTotal={sumTotal}
+            setSumTotal={setSumTotal}
           />
         )}
         <main className="flex flex-col gap-16 relative">
@@ -66,12 +82,14 @@ const Home = () => {
             setCartCount={setCartCount}
             ifExists
             openAndCloseCart={openAndCloseCart}
+            setSumTotal={setSumTotal}
           />
           <FlexContent endpoint={highlight} ifExists />
           <Sales
             endpoint={toprateslaes}
             setCartCount={setCartCount}
             openAndCloseCart={openAndCloseCart}
+            setSumTotal={setSumTotal}
           />
           <FlexContent endpoint={sneaker} />
           <Stories story={story} />
