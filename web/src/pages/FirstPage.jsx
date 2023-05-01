@@ -32,7 +32,7 @@ const FirstPage = () => {
             <p className="mt-6 text-[1.3rem] text-slate-900">
               Sign up for free. Join the community.
             </p>
-            <Link to="/SignUp">
+            <Link to="/Login">
               <button
                 type="button"
                 className="mt-6 button-theme bg-slate-900 shadow-slate-900 text-slate-100 rounded-xl my-5"

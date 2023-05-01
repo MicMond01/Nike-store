@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../assets/logo.png";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../firebase";
 import { useDispatch } from "react-redux";
@@ -12,10 +12,10 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [error, setError] =useState("")
+  const [error, setError] = useState("");
   const [loginValue, setLoginValue] = useState({
-    email: "",
-    password: "",
+    email: "admin@email.com",
+    password: "admin123456",
   });
 
   const handleChange = (event) => {
@@ -37,7 +37,7 @@ const Login = () => {
         // Signed in
         const user = userCredential.user;
         window.localStorage.setItem("uid", user.uid);
-        dispatch(setUser(user))
+        dispatch(setUser(user));
         navigate("/home");
         console.log(user);
       })
@@ -114,7 +114,14 @@ const Login = () => {
                     {error ? "Username or password is incorrect" : ""}
                   </p>
 
-                  <div className="relative w-full ">
+                  <div className="relative w-full flex justify-between ">
+                    <p className=" absolute left-0 rounded-xl my-2 h-10 ">
+                      Don't have an account?{" "}
+                      <Link to="/SignUp" className="text-red-600">
+                        {" "}
+                        SignUp{" "}
+                      </Link>
+                    </p>
                     <button className=" absolute right-0 button-theme bg-slate-900 text-white shadow-slate-500 rounded-xl my-2 h-10 ">
                       Sign In
                     </button>

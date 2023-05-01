@@ -8,7 +8,8 @@ import { AnimatePresence } from "framer-motion";
 import Login from "./pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import ProtectedLogin from "./ProtectLogin";
-import Payment from "./components/stripe/Payment";
+import Payment from "./checkout/Payment";
+import Completion from "./checkout/Completion";
 
 // import StripeContainer from "./components/stripe/StripeContainer";
 
@@ -29,7 +30,8 @@ const App = () => {
             <Route element={<ProtectedRoute />}>
               <Route path="/home" element={<Home />} />
             </Route>
-            <Route path="/Payment" element={<Payment />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/completion" element={<Completion />} />
           </Routes>
         </BrowserRouter>
       </AnimatePresence>

@@ -43,7 +43,8 @@ const Navbar = ({ openAndCloseCart, cartCount }) => {
         }
       >
         <nav className="flex items-center justify-between nike-container">
-          <div className="flex items-center">
+          <div className="flex items-center cursor-pointer">
+          
             <img
               src={logo}
               alt="logo/img"
