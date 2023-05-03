@@ -194,7 +194,7 @@ const Cart = ({
                   {localItem?.length === 0 ? (
                     ""
                   ) : (
-                    <Link to="/">
+                    <Link to="/Payment">
                       <button
                         onClick={() => {
                           handleCheckout;

@@ -1,6 +1,8 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
+// import CartItem from "./../components/cart/CartItem";
+import CheckoutItems from "../checkout/CheckoutItems";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -8,6 +10,13 @@ export default function CheckoutForm() {
 
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const [localItem, setLocalItem] = useState([]);
+
+  useEffect(() => {
+    const cartItems = localStorage.getItem("filteredArray") || null;
+    cartItems && setLocalItem(JSON.parse(cartItems));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,15 +47,35 @@ export default function CheckoutForm() {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" />
-      <button disabled={isProcessing || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isProcessing ? "Processing ... " : "Pay now"}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+    <div className="w-screen h-screen flex items-center justify-center content-center">
+      {localItem?.length === 0 ? (
+        <p>Select an item to add to cart</p>
+      ) : (
+        <div>
+          <div className="flex items-start justify-start flex-col gap-y-7 lg:gap-y-5 overflow-y-scroll h-[81vh] scroll-smooth scroll-hidden py-3">
+            {localItem?.map((item, i) => (
+              <CheckoutItems
+                key={i}
+                item={item}
+                // incrementItem={incrementItem}
+                // decrementItem={decrementItem}
+                // deleteCartItem={deleteCartItem}
+                // subTotal={subTotal}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <PaymentElement id="payment-element" />
+        <button disabled={isProcessing || !stripe || !elements} id="submit">
+          <span id="button-text">
+            {isProcessing ? "Processing ... " : "Pay now"}
+          </span>
+        </button>
+        {/* Show any error or success messages */}
+        {message && <div id="payment-message">{message}</div>}
+      </form>
+    </div>
   );
 }
