@@ -17,11 +17,9 @@ export default function Payment() {
 
   const getConfig = async () => {
     const res = await globalfetch("/config", "GET");
-    console.log(res);
     const { publishableKey } = res;
     if (publishableKey) {
       const load = loadStripe(publishableKey);
-      console.log(load);
       setStripePromise(load);
     }
   };
