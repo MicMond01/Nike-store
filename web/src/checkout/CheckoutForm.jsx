@@ -22,7 +22,6 @@ export default function CheckoutForm() {
     cartTotal && setLocalTotal(JSON.parse(cartTotal));
   }, []);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
